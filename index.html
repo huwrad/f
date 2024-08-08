@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> :) </title>
+    <title> : - ) </title>
     <style>
         body {
             margin: 0;
@@ -570,6 +570,7 @@
 'https://lh3.googleusercontent.com/pw/AP1GczNjGo2kB6r8Ql7gtHdvYQET9kTsGr3cmL2dIoFv19OIxSYIA3BwasFj1SYcCWSYBcPK3qhs4fEnhBz1Bx9qxWISZv2xwVB7I5K3ZQXgsQDLpMfAjB3LQVpCIN3nTT8Q-TrFniRrYov-BhOMmOxN0NZS6w=w1078-h1626-s-no-gm?authuser=0'
         
         ];
+
         let currentIndex = 0;
         const batchSize = 10;
 
@@ -586,30 +587,19 @@
             return src.includes('w1471') || src.includes('w2452');
         }
 
-        // Function to check if an image is portrait
-        function isPortrait(src) {
-            return src.includes('h1471') || src.includes('h1626');
-        }
-
-        // Function to check if the device is desktop
-        function isDesktop() {
-            return window.innerWidth >= 769;
-        }
-
         // Function to create and append images
         function displayImages(start, end) {
             const container = document.getElementById('imageContainer');
-            let specialImageCount = 0;
+            let landscapeCount = 0;
             let i = start;
 
-            // For the first batch, ensure the first 3 images are landscape (desktop) or portrait (mobile)
-            if (start === 0) {
-                const checkFunction = isDesktop() ? isLandscape : isPortrait;
-                while (specialImageCount < 3 && i < imageSources.length) {
-                    if (checkFunction(imageSources[i])) {
+            // On desktop, ensure the first 3 images are landscape
+            if (window.innerWidth >= 769 && start === 0) {
+                while (landscapeCount < 3 && i < imageSources.length) {
+                    if (isLandscape(imageSources[i])) {
                         const img = createImageElement(imageSources[i]);
                         container.appendChild(img);
-                        specialImageCount++;
+                        landscapeCount++;
                     }
                     i++;
                 }
@@ -649,21 +639,12 @@
         // Initialize the gallery
         function initGallery() {
             shuffleArray(imageSources);
-            currentIndex = 0;
-            document.getElementById('imageContainer').innerHTML = ''; // Clear existing images
             displayImages(0, batchSize);
+            window.addEventListener('scroll', checkScroll);
         }
 
         // Call the function when the page loads
         window.onload = initGallery;
-
-        // Add resize event listener to handle orientation changes
-        window.addEventListener('resize', function() {
-            initGallery(); // Reinitialize gallery on resize
-        });
-
-        // Add scroll event listener
-        window.addEventListener('scroll', checkScroll);
     </script>
 </body>
 </html>
