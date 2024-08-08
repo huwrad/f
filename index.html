@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> : - ) </title>
+    <title> :  ) </title>
     <style>
         body {
             margin: 0;
@@ -33,14 +33,32 @@
         @media (min-width: 769px) {
             #imageContainer {
                 max-width: 1200px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .landscape-wrapper {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                margin: 30px 0;
+            }
+            .portrait-wrapper {
+                width: 50%;
+                display: flex;
+                justify-content: center;
+                padding: 0 10px;
+                box-sizing: border-box;
             }
             img[src*="h1471"], /* Portrait images */
             img[src*="h1626"] {
-                max-width: 700px;
+                max-width: 100%;
+                margin: 30px 0;
             }
             img[src*="w1471"], /* Landscape images */
             img[src*="w2452"] {
                 max-width: 1200px;
+                margin: 0;
             }
         }
         @media (max-width: 768px) {
@@ -587,7 +605,29 @@
             return src.includes('w1471') || src.includes('w2452');
         }
 
-        // Function to create and append images
+        function isPortrait(src) {
+            return src.includes('h1471') || src.includes('h1626');
+        }
+
+        function createImageElement(src) {
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = 'Random image';
+            img.onerror = function() {
+                console.log('Failed to load image:', src);
+                this.style.display = 'none'; // Hide the broken image
+            };
+
+            if (window.innerWidth >= 769) {
+                const wrapper = document.createElement('div');
+                wrapper.className = isPortrait(src) ? 'portrait-wrapper' : 'landscape-wrapper';
+                wrapper.appendChild(img);
+                return wrapper;
+            } else {
+                return img;
+            }
+        }
+
         function displayImages(start, end) {
             const container = document.getElementById('imageContainer');
             let landscapeCount = 0;
