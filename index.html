@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> : () </title>
+    <title> :) </title>
     <style>
         body {
             margin: 0;
@@ -582,21 +582,47 @@
             }
         }
 
+        // Function to check if an image is landscape
+        function isLandscape(src) {
+            return src.includes('w1471') || src.includes('w2452');
+        }
+
         // Function to create and append images
-function displayImages(start, end) {
-    const container = document.getElementById('imageContainer');
-    
-    for (let i = start; i < end && i < imageSources.length; i++) {
-        const img = document.createElement('img');
-        img.src = imageSources[i];
-        img.alt = 'Random image';
-        img.onerror = function() {
-            console.log('Failed to load image:', imageSources[i]);
-            this.style.display = 'none'; // Hide the broken image
-        };
-        container.appendChild(img);
-    }
-}
+        function displayImages(start, end) {
+            const container = document.getElementById('imageContainer');
+            let landscapeCount = 0;
+            let i = start;
+
+            // On desktop, ensure the first 3 images are landscape
+            if (window.innerWidth >= 769 && start === 0) {
+                while (landscapeCount < 3 && i < imageSources.length) {
+                    if (isLandscape(imageSources[i])) {
+                        const img = createImageElement(imageSources[i]);
+                        container.appendChild(img);
+                        landscapeCount++;
+                    }
+                    i++;
+                }
+            }
+
+            // Continue with the rest of the images
+            for (; i < end && i < imageSources.length; i++) {
+                const img = createImageElement(imageSources[i]);
+                container.appendChild(img);
+            }
+        }
+
+        // Helper function to create an image element
+        function createImageElement(src) {
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = 'Random image';
+            img.onerror = function() {
+                console.log('Failed to load image:', src);
+                this.style.display = 'none'; // Hide the broken image
+            };
+            return img;
+        }
 
         // Function to check scroll position and load more images if needed
         function checkScroll() {
