@@ -13,7 +13,7 @@
             padding: 0;
             display: flex;
             justify-content: center;
-            background-color: #000000;
+            background-color: #ffffff;
         }
         #imageContainer {
             max-width: 100%;
@@ -587,19 +587,27 @@
             return src.includes('w1471') || src.includes('w2452');
         }
 
+        // Function to check if an image is portrait
+        function isPortrait(src) {
+            return src.includes('h1471') || src.includes('h1626');
+        }
+
         // Function to create and append images
         function displayImages(start, end) {
             const container = document.getElementById('imageContainer');
-            let landscapeCount = 0;
+            let specialImageCount = 0;
             let i = start;
 
-            // On desktop, ensure the first 3 images are landscape
-            if (window.innerWidth >= 769 && start === 0) {
-                while (landscapeCount < 3 && i < imageSources.length) {
-                    if (isLandscape(imageSources[i])) {
+            const isDesktop = window.innerWidth >= 769;
+
+            // For the first batch, ensure the first 3 images are landscape (desktop) or portrait (mobile)
+            if (start === 0) {
+                const checkFunction = isDesktop ? isLandscape : isPortrait;
+                while (specialImageCount < 3 && i < imageSources.length) {
+                    if (checkFunction(imageSources[i])) {
                         const img = createImageElement(imageSources[i]);
                         container.appendChild(img);
-                        landscapeCount++;
+                        specialImageCount++;
                     }
                     i++;
                 }
