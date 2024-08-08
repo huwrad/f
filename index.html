@@ -1,1 +1,47 @@
-<h1>hello </h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Image Gallery</title>
+</head>
+<body>
+    <div id="imageContainer"></div>
+
+    <script>
+        // Array of image sources
+        const imageSources = [
+            'https://lh3.googleusercontent.com/pw/AP1GczOM0xvYncyihpL-V5QxSFtVM4Msx9vmTyO2BrnOsqA1CsyrMCubDQBzM6J0wyGU-MKq9UzhG2ifnDuq1_DywHNOzw1CbhgQxnYjQrR-JkSae0fWEa92DpAr0VDwfqNBhM4SRQ_8qFmdJih7PbIO83M2cA=w1471-h980-s-no-gm?authuser=0',
+            'https://lh3.googleusercontent.com/pw/AP1GczP0cQKdTOoFI1aIKBpDOcWT5ucKghGYiksUKpsoa4OsT0bbA7BwGWu41MK8nPkwqRyc8En8x55-R3AlJRA5qhFwSjX-tGgPw4F1lwqMZgMTFI3pSIJKi4_SnD6SoEQZjm48ViV40WqXABlujzv7eHoYJQ=w980-h1471-s-no-gm?authuser=0',
+            // Add all your image URLs here
+        ];
+
+        // Fisher-Yates shuffle algorithm
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Function to create and append images
+        function displayImages() {
+            const container = document.getElementById('imageContainer');
+            
+            // Shuffle the image sources
+            shuffleArray(imageSources);
+            
+            // Create and append image elements
+            imageSources.forEach(src => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = 'Random image';
+                container.appendChild(img);
+            });
+        }
+
+        // Call the function when the page loads
+        window.onload = displayImages;
+    </script>
+</body>
+</html>
