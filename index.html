@@ -35,27 +35,6 @@
         img[src*="w2452"] {
             max-width: 1200px; /* Adjust this value as needed */
         }
-
-        #filterButtons {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            gap: 10px;
-        }
-        .filterButton {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .filterButton:hover {
-            background-color: #0056b3;
-        }
-        
     </style>
 </head>
 <body>
@@ -623,73 +602,6 @@ function displayImages(start, end) {
 
         // Call the function when the page loads
         window.onload = initGallery;
-
-
-        let currentIndex = 0;
-        const batchSize = 10;
-        let currentFilter = 'all';
-
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-        function isPortrait(src) {
-            return src.includes('h1471') || src.includes('h1626');
-        }
-
-        function isLandscape(src) {
-            return src.includes('w1471') || src.includes('w2452');
-        }
-
-        function filterImages(filter) {
-            currentFilter = filter;
-            currentIndex = 0;
-            const container = document.getElementById('imageContainer');
-            container.innerHTML = ''; // Clear existing images
-            displayImages(0, batchSize);
-        }
-
-        function displayImages(start, end) {
-            const container = document.getElementById('imageContainer');
-            
-            for (let i = start; i < imageSources.length && container.children.length < end; i++) {
-                const src = imageSources[i];
-                if (
-                    (currentFilter === 'all') ||
-                    (currentFilter === 'portrait' && isPortrait(src)) ||
-                    (currentFilter === 'landscape' && isLandscape(src))
-                ) {
-                    const img = document.createElement('img');
-                    img.src = src;
-                    img.alt = 'Random image';
-                    container.appendChild(img);
-                }
-            }
-            currentIndex = container.children.length;
-        }
-
-        function checkScroll() {
-            const container = document.getElementById('imageContainer');
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000) {
-                displayImages(currentIndex, currentIndex + batchSize);
-            }
-        }
-
-        function initGallery() {
-            shuffleArray(imageSources);
-            displayImages(0, batchSize);
-            window.addEventListener('scroll', checkScroll);
-        }
-
-        window.onload = initGallery;
-
-        
     </script>
 </body>
 </html>
-
-
-
