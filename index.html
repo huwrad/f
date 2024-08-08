@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Image Gallery</title>
+    <title>Random ImaGallery</title>
     <style>
         body {
             margin: 0;
@@ -226,16 +226,20 @@
         }
 
         // Function to create and append images
-        function displayImages(start, end) {
-            const container = document.getElementById('imageContainer');
-            
-            for (let i = start; i < end && i < imageSources.length; i++) {
-                const img = document.createElement('img');
-                img.src = imageSources[i];
-                img.alt = 'Random image';
-                container.appendChild(img);
-            }
-        }
+function displayImages(start, end) {
+    const container = document.getElementById('imageContainer');
+    
+    for (let i = start; i < end && i < imageSources.length; i++) {
+        const img = document.createElement('img');
+        img.src = imageSources[i];
+        img.alt = 'Random image';
+        img.onerror = function() {
+            console.log('Failed to load image:', imageSources[i]);
+            this.style.display = 'none'; // Hide the broken image
+        };
+        container.appendChild(img);
+    }
+}
 
         // Function to check scroll position and load more images if needed
         function checkScroll() {
