@@ -13,7 +13,7 @@
             padding: 0;
             display: flex;
             justify-content: center;
-            background-color: #ffffff;
+            background-color: #000000;
         }
         #imageContainer {
             max-width: 100%;
@@ -29,6 +29,19 @@
             height: auto;
             margin: 10px 0;
             object-fit: contain;
+        }
+        @media (min-width: 769px) {
+            #imageContainer {
+                max-width: 1300px;
+            }
+            img[src*="h1471"], /* Portrait images */
+            img[src*="h1626"] {
+                max-width: 800px;
+            }
+            img[src*="w1471"], /* Landscape images */
+            img[src*="w2452"] {
+                max-width: 1200px;
+            }
         }
         @media (max-width: 768px) {
             #imageContainer {
